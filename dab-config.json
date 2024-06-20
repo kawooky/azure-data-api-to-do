@@ -1,0 +1,50 @@
+{
+  "$schema": "https://github.com/Azure/data-api-builder/releases/download/v1.1.7/dab.draft.schema.json",
+  "data-source": {
+    "database-type": "mssql",
+    "connection-string": "Server=tcp:to-do-yk.database.windows.net,1433;Initial Catalog=to-do-db;Encrypt=True;TrustServerCertificate=False;Connection Timeout=200;Authentication=\"Active Directory Default\";",
+    "options": {
+      "set-session-context": false
+    }
+  },
+  "runtime": {
+    "rest": {
+      "enabled": true,
+      "path": "/api",
+      "request-body-strict": true
+    },
+    "graphql": {
+      "enabled": true,
+      "path": "/graphql",
+      "allow-introspection": true
+    },
+    "host": {
+      "cors": {
+        "origins": ["*"],
+        "allow-credentials": false
+      },
+      "authentication": {
+        "provider": "StaticWebApps"
+      },
+      "mode": "development"
+    }
+  },
+  "entities": {
+    "TodoItem": {
+      "source": "dbo.TodoItems",
+      "permissions": [
+        {
+          "role": "anonymous",
+          "actions": ["read", "create", "update", "delete"]
+        }
+      ],
+      "rest": {
+        "path": "/todoitems"
+      },
+      "graphql": {
+        "type": "TodoItem"
+      },
+      "primary-key": "Id"
+    }
+  }
+}
